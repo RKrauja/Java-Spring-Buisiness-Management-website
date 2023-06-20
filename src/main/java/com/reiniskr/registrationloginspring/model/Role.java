@@ -1,6 +1,5 @@
 package com.reiniskr.registrationloginspring.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +16,7 @@ public class Role {
     }
 
     public Role(String name) {
+        super();
         this.name = name;
     }
 

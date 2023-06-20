@@ -3,7 +3,6 @@ package com.reiniskr.registrationloginspring.model;
 import jakarta.persistence.*;
 
 import java.util.Collection;
-import java.util.List;
 
 
 @Entity
@@ -23,7 +22,6 @@ public class User {
     private String email;
 
     private String password;
-    //hello
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -47,11 +45,6 @@ public class User {
         this.password = password;
         this.roles = roles;
     }
-
-    public <T> User(String firstname, String lastname, String email, String email1, String password, List<T> roleUser) {
-    }
-
-
     public Long getId() {
         return id;
     }
