@@ -4,12 +4,10 @@ import com.reiniskr.registrationloginspring.model.Role;
 import com.reiniskr.registrationloginspring.model.User;
 import com.reiniskr.registrationloginspring.repository.UserRepository;
 import com.reiniskr.registrationloginspring.web.dto.UserRegistrationDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -20,8 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
 
     private UserRepository userRepository;
 
@@ -31,22 +29,22 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
 
-//    @Override
-//    public User save(UserRegistrationDto registrationDto) {
-//        User user = new User(registrationDto.getFirstName(),
-//                registrationDto.getLastName(), registrationDto.getEmail(),
-//                registrationDto.getPassword(), Arrays.asList(new Role("ROLE_USER")));
-//
-//        return userRepository.save(user);
-//    }
-@Override
-public User save(UserRegistrationDto registrationDto) {
-    User user = new User(registrationDto.getFirstName(),
-            registrationDto.getLastName(), registrationDto.getEmail(),
-           passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+    @Override
+    public User save(UserRegistrationDto registrationDto) {
+        User user = new User(registrationDto.getFirstName(),
+                registrationDto.getLastName(), registrationDto.getEmail(),
+                registrationDto.getPassword(), Arrays.asList(new Role("ROLE_USER")));
 
-    return userRepository.save(user);
-}
+        return userRepository.save(user);
+    }
+//@Override
+//public User save(UserRegistrationDto registrationDto) {
+//    User user = new User(registrationDto.getFirstName(),
+//            registrationDto.getLastName(), registrationDto.getEmail(),
+//           passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+//
+//    return userRepository.save(user);
+//}
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
