@@ -5,6 +5,30 @@
     <title>Dashboard</title>
 </head>
 <body>
+<h1>Dashboards</h1>
+
+<table class="table table-striped table-primary">
+
+    <thead class="ttop">
+    <tr class="table-info">
+        <td width="20px"><b> ID</b></td>
+        <td><b>Preces nosaukums</b> </td>
+        <td><b>Vienību skaits</b> </td>
+        <td><b>Cena par vienību</b> </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="prod, iStat : ${products}" th:style="${iStat.odd}? 'font-weight: normal;'">
+
+        <td width="20px" th:text="${prod.id}">
+        </td><td th:text="${prod.name}">
+    </td><td th:text="${prod.storedAmount}">
+    </td><td th:text="${prod.price}">
+    </td></tr>
+    </tbody>
+</table>
+
 
 </body>
+
 </html>

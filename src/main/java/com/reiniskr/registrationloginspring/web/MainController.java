@@ -1,59 +1,81 @@
 package com.reiniskr.registrationloginspring.web;
 
-
-//import com.reiniskr.registrationloginspring.model.User;
-//import com.reiniskr.registrationloginspring.repository.UserRepository;
-//import com.reiniskr.registrationloginspring.web.dto.UserLoginDto;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
-//
-//@Controller
-//public class MainController {
-//
-//    @Autowired
-//    UserRepository userRepository;
-//
-//    @GetMapping("/login")
-//    public String login(){
-//        User a = userRepository.findByEmail("krauja@gmail.com");
-//        System.out.println("First User: "+ a.getPassword());
-//
-//        return "login";
-//    }
-//    @PostMapping("/login")
-//    public String registerUserAccount(UserLoginDto userLoginDto, Model model) {
-//        String username = userLoginDto.getUsername();
-//        String password = userLoginDto.getPassword();
-//        System.out.println("Entered username is: "+ username);
-//        System.out.println("Entered password is: "+ password);
-//        return "redirect:/login?success";
-//    }
-//
-
-
-//}
-
+import com.reiniskr.registrationloginspring.model.User;
+import com.reiniskr.registrationloginspring.repository.ProductRepository;
+import com.reiniskr.registrationloginspring.repository.UserRepository;
+import com.reiniskr.registrationloginspring.web.dto.UserLoginDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MainController {
 
-//    @GetMapping("/login")
-//    public String login() {
-//        return "login";
-//    }
-//    @PostMapping("/login")
-//    public String registerUserAccount(@ModelAttribute("user")User user) {
-//        System.out.println(user);
-//        return "redirect:/login?success";
-//    }
+    boolean UserLoggedIn = false;
+
+    boolean AdminUser = false;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @ModelAttribute("user")
+    public UserLoginDto userLoginDto(){
+        return new UserLoginDto();
+    }
 
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "/login";
     }
+    @GetMapping("/login")
+    public String showLoginForm(){
+        return "login";
+    }
+    @PostMapping("/login")
+    public String loginUserAccount(@ModelAttribute("user") UserLoginDto loginDto) {
+        System.out.println("Entered email: "+loginDto.getEmail());
+        System.out.println("Entered password: "+loginDto.getPassword());
+        User existingUser = userRepository.findByEmail(loginDto.getEmail());
+
+        if (existingUser != null){
+            if (existingUser.getPassword().equals(loginDto.getPassword())) {
+                UserLoggedIn = true;
+                if (existingUser.getId() == 1){
+                    AdminUser = true;
+                    return "redirect:/adminDashboard";
+                }
+                return "redirect:/dashboard";
+            }
+        }
+        return "redirect:/login?error";
+
+//        return "login";
+
+//        return "redirect:/login?success";
+    }
+
+    @Autowired ProductRepository productRepository;
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model){
+        model.addAttribute("products", productRepository.findAll());
+        if(!UserLoggedIn)
+            return "/login";
+        UserLoggedIn = false;
+        return "Dashboard";
+    }
+    @GetMapping("/adminDashboard")
+    public String showAdminDashboard(){
+        if (!AdminUser || !UserLoggedIn)
+            return "/login";
+        return "AdminDashboard";
+    }
+
 }
+/*    @PostMapping
+    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
+        userService.save(registrationDto);
+        return "redirect:/registration?success";
+    }*/
