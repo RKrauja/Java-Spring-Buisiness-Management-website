@@ -33,16 +33,16 @@ public class UserLoginController {
         System.out.println("Entered password: "+loginDto.getPassword());
         User existingUser = userRepository.findByEmail(loginDto.getEmail());
 
-        if (existingUser.getId() != null){
-            System.out.println("This User exists");
-            return "Dashbaord";
-        }else{
-
+        if (existingUser != null){
+            if (existingUser.getPassword().equals(loginDto.getPassword())) {
+                return "Dashboard";
+            }
         }
+        return "redirect:/login?error";
 
 //        return "login";
 
-        return "redirect:/login?success";
+//        return "redirect:/login?success";
     }
 
 }
