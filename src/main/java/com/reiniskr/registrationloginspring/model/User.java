@@ -16,10 +16,16 @@ public class User {
 //
 //    @Column(name = "last_name")
 //    private String lastName;
-
+    @Column(name = "email")
     private String email;
-
+    @Column(name = "password")
     private String password;
+
+
+
+    @Column(name = "isAdmin")
+
+    private boolean isAdmin = false;
 
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(
@@ -45,6 +51,14 @@ public class User {
     }
     public Long getId() {
         return id;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
     public void setId(Long id) {
         this.id = id;

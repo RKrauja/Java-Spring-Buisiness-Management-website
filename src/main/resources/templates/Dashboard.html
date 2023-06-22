@@ -3,8 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+
 </head>
 <body>
+<style>
+    table {
+        border-collapse: collapse;
+        font-family: Tahoma, Geneva, sans-serif;
+    }
+    table td {
+        padding: 15px;
+    }
+    table thead td {
+        background-color: #54585d;
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 13px;
+        border: 1px solid #54585d;
+    }
+    table tbody td {
+        color: #636363;
+        border: 1px solid #dddfe1;
+    }
+    table tbody tr {
+        background-color: #f9fafb;
+    }
+    table tbody tr:nth-child(odd) {
+        background-color: #ffffff;
+    }
+</style>
 <h1>Dashboards</h1>
 
 <table class="table table-striped table-primary">
@@ -28,7 +60,46 @@
     </tbody>
 </table>
 
+<form th:action="@{/adminDashboard}" method="get" id="NewEntryButton">
+    <button type="submit">Pieveienot jaunu preci</button>
+</form>
 
+<div>
+    <form method="post" th:object="${product}">
+        <div class="form-group">
+            <label class="control-label" for="name"> Preces nosaukums </label> <input
+                id="name" class="form-control" th:field="*{name}" required
+                autofocus="autofocus" />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="storedAmount"> Email </label>
+            <input id="storedAmount" class="form-control" th:field="*{storedAmount}" required
+                autofocus="autofocus" />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="price"> Email </label>
+            <input id="price" class="form-control" th:field="*{price}" required
+                autofocus="autofocus" />
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit" name="NewEntry-submit" id="NewEntry-submit"
+                           class="form-control btn btn-primary" value="Submit" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var isAdmin = [[${user.isAdmin}]];
+    if (!isAdmin){
+        document.getElementById("NewEntryButton").style.display = 'none';
+    }
+    console.log(isAdmin);
+    /*]]>*/
+</script>
 </body>
 
 </html>

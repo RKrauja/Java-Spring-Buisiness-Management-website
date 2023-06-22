@@ -3,6 +3,7 @@ package com.reiniskr.registrationloginspring.web;
 import com.reiniskr.registrationloginspring.model.User;
 import com.reiniskr.registrationloginspring.repository.ProductRepository;
 import com.reiniskr.registrationloginspring.repository.UserRepository;
+import com.reiniskr.registrationloginspring.web.dto.ProductDto;
 import com.reiniskr.registrationloginspring.web.dto.UserLoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ public class MainController {
 
     boolean UserLoggedIn = false;
 
-    boolean AdminUser = false;
+    private User currentUser;
 
     @Autowired
     UserRepository userRepository;
@@ -43,17 +44,15 @@ public class MainController {
         if (existingUser != null){
             if (existingUser.getPassword().equals(loginDto.getPassword())) {
                 UserLoggedIn = true;
-                if (existingUser.getId() == 1){
-                    AdminUser = true;
-                    return "redirect:/adminDashboard";
-                }
+                currentUser = existingUser;
                 return "redirect:/dashboard";
             }
         }
+
         return "redirect:/login?error";
 
 //        return "login";
-
+//
 //        return "redirect:/login?success";
     }
 
@@ -61,20 +60,32 @@ public class MainController {
     @GetMapping("/dashboard")
     public String showDashboard(Model model){
         model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("user",currentUser);
         if(!UserLoggedIn)
             return "/login";
-        UserLoggedIn = false;
         return "Dashboard";
     }
-    @GetMapping("/adminDashboard")
-    public String showAdminDashboard(){
-        if (!AdminUser || !UserLoggedIn)
-            return "/login";
-        return "AdminDashboard";
+
+    @PostMapping("/dashboard")
+    public String getFromDashboard(@ModelAttribute("product")ProductDto productDto){
+        System.out.println(productDto);
+
+        return "login";
     }
 
+
+    @GetMapping("/adminDashboard")
+    public String showAdminDashboard(){
+        if (!currentUser.isAdmin())
+            return "/login";
+        return "AdminDashboard";
+
+    }
+
+
 }
-/*    @PostMapping
+/*
+    @PostMapping
     public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
         userService.save(registrationDto);
         return "redirect:/registration?success";
