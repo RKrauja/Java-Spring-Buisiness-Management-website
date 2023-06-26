@@ -8,6 +8,7 @@ import com.reiniskr.registrationloginspring.service.ProductService;
 import com.reiniskr.registrationloginspring.service.ProductServiceImpl;
 import com.reiniskr.registrationloginspring.web.dto.ProductDto;
 import com.reiniskr.registrationloginspring.web.dto.UserLoginDto;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,12 +53,12 @@ public class MainController {
     public String showLoginForm(){
         return "login";
     }
+
     @PostMapping("/login")
     public String loginUserAccount(@ModelAttribute("user") UserLoginDto loginDto, HttpServletResponse response) {
         System.out.println("Entered email: "+loginDto.getEmail());
         System.out.println("Entered password: "+loginDto.getPassword());
         User existingUser = userRepository.findByEmail(loginDto.getEmail());
-
         if (existingUser != null){
             if (existingUser.getPassword().equals(loginDto.getPassword())) {
                 UserLoggedIn = true;
@@ -65,6 +66,7 @@ public class MainController {
                 return "redirect:/dashboard";
             }
         }
+        Cookie cookie = new Cookie("username","toms");
 
         return "redirect:/login?error";
 
