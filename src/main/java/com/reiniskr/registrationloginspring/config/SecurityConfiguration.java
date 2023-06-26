@@ -42,6 +42,7 @@ class SecurityConfiguration  {
                 .requestMatchers("/registration").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("logout").permitAll()
+                .requestMatchers("/dashboard").permitAll()
                 .requestMatchers("/login").permitAll().and()
                 .logout((logout) ->logout
                                 .invalidateHttpSession(true)

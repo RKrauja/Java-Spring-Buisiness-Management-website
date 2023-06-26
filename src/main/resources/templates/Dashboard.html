@@ -64,33 +64,7 @@
     <button type="submit">Pieveienot jaunu preci</button>
 </form>
 
-<div>
-    <form method="post" th:object="${product}">
-        <div class="form-group">
-            <label class="control-label" for="name"> Preces nosaukums </label> <input
-                id="name" class="form-control" th:field="*{name}" required
-                autofocus="autofocus" />
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="storedAmount"> Email </label>
-            <input id="storedAmount" class="form-control" th:field="*{storedAmount}" required
-                autofocus="autofocus" />
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="price"> Email </label>
-            <input id="price" class="form-control" th:field="*{price}" required
-                autofocus="autofocus" />
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <input type="submit" name="NewEntry-submit" id="NewEntry-submit"
-                           class="form-control btn btn-primary" value="Submit" />
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
+
 <script th:inline="javascript">
     /*<![CDATA[*/
     var isAdmin = [[${user.isAdmin}]];

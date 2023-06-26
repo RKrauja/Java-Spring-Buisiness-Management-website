@@ -82,6 +82,12 @@ public class MainController {
 
     }
 
+    @PostMapping("/adminDashboard")
+    public String loginUserAccount(@ModelAttribute("newProd") ProductDto productDto) {
+        System.out.println(productDto.getName());
+        return "redirect:/dashboard";
+    }
+
 
 }
 /*
