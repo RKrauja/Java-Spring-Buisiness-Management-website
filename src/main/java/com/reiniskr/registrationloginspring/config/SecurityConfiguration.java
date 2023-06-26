@@ -38,11 +38,13 @@ class SecurityConfiguration  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeRequests()
                 .requestMatchers("/registration").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("logout").permitAll()
                 .requestMatchers("/dashboard").permitAll()
+                .requestMatchers("/editProd").permitAll()
                 .requestMatchers("/login").permitAll().and()
                 .logout((logout) ->logout
                                 .invalidateHttpSession(true)

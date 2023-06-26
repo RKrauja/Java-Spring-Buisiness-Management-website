@@ -7,8 +7,12 @@ import com.reiniskr.registrationloginspring.repository.ProductRepository;
 import com.reiniskr.registrationloginspring.web.dto.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 
+@Transactional
 @Service
 public class ProductServiceImpl implements ProductService{
 
@@ -18,13 +22,28 @@ public class ProductServiceImpl implements ProductService{
     private ProductRepository productRepository;
 
 
+//    @Override
+//    public Product update(Long id, Product product) {
+//
+//
+//    }
+
+    public List<Product> getAllProducts(){
+        List<Product> products = new ArrayList<Product>();
+        productRepository.findAll().forEach(product -> products.add(product));
+        List<Product> clone = products;
+        return products;
+    }
     @Override
     public Product save(ProductDto productDto) {
         Product product = new Product(productDto.getName(), productDto.getStoredAmount(),productDto.getPrice());
 
         return productRepository.save(product);
     }
-
+    @Override
+    public Product deleteProductById(Long id){
+        return productRepository.deleteProductById(id);
+    }
 
 
 //@Override

@@ -1,9 +1,11 @@
 package com.reiniskr.registrationloginspring.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames = "id"))
+@DynamicUpdate
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
