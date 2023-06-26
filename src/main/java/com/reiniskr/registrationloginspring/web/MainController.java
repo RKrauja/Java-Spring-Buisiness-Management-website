@@ -3,6 +3,7 @@ package com.reiniskr.registrationloginspring.web;
 import com.reiniskr.registrationloginspring.model.User;
 import com.reiniskr.registrationloginspring.repository.ProductRepository;
 import com.reiniskr.registrationloginspring.repository.UserRepository;
+import com.reiniskr.registrationloginspring.service.ProductService;
 import com.reiniskr.registrationloginspring.web.dto.ProductDto;
 import com.reiniskr.registrationloginspring.web.dto.UserLoginDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class MainController {
     boolean UserLoggedIn = false;
 
     private User currentUser;
+
+    private ProductService productService;
+    public MainController(ProductService productService){
+        super();
+        this.productService = productService;
+    }
 
     @Autowired
     UserRepository userRepository;
@@ -59,10 +66,10 @@ public class MainController {
     @Autowired ProductRepository productRepository;
     @GetMapping("/dashboard")
     public String showDashboard(Model model){
+        if(currentUser == null)
+            return "redirect:/login";
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("user",currentUser);
-        if(!UserLoggedIn)
-            return "/login";
         return "Dashboard";
     }
 
@@ -75,7 +82,8 @@ public class MainController {
 
 
     @GetMapping("/adminDashboard")
-    public String showAdminDashboard(){
+    public String showAdminDashboard(Model model){
+        model.addAttribute("newProd", new ProductDto());
         if (!currentUser.isAdmin())
             return "/login";
         return "AdminDashboard";
@@ -84,7 +92,9 @@ public class MainController {
 
     @PostMapping("/adminDashboard")
     public String loginUserAccount(@ModelAttribute("newProd") ProductDto productDto) {
-        System.out.println(productDto.getName());
+        System.out.println("Product name: "+ productDto.getName());
+//        productRepository.save(productDto);
+        productService.save(productDto);
         return "redirect:/dashboard";
     }
 

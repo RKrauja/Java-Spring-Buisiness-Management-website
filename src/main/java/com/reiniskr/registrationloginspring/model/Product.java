@@ -16,8 +16,7 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    public Product(Long id, String name, int storedAmount, double price) {
-        this.id = id;
+    public Product( String name, int storedAmount, double price) {;
         this.name = name;
         this.storedAmount = storedAmount;
         this.price = price;
