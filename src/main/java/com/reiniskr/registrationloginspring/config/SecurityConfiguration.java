@@ -15,26 +15,6 @@ class SecurityConfiguration  {
     @Autowired
     private UserService userService;
 
-
-
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//
-//    }
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider(){
-//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-//        auth.setUserDetailsService(userService);
-//        auth.setPasswordEncoder(passwordEncoder());
-//        return auth;
-//    }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth)throws Exception{
-//        auth.authenticationProvider(authenticationProvider());
-//    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -52,14 +32,7 @@ class SecurityConfiguration  {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
-                );; // Permit access to the registration page
-
-
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login") // Specify the URL for the default login page
-//                .permitAll();
+                );
         return http.build();
 
     }

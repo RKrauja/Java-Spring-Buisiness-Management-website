@@ -1,7 +1,4 @@
 package com.reiniskr.registrationloginspring.service;
-
-//import com.reiniskr.registrationloginspring.model.Role;
-
 import com.reiniskr.registrationloginspring.model.User;
 import com.reiniskr.registrationloginspring.repository.UserRepository;
 import com.reiniskr.registrationloginspring.web.dto.UserRegistrationDto;
@@ -13,9 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService{
 
-//    @Autowired
-//    private BCryptPasswordEncoder passwordEncoder;
-
     private UserRepository userRepository;
 
 
@@ -26,22 +20,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User save(UserRegistrationDto registrationDto) {
-        User user = new User(null, null, registrationDto.getEmail(),
+        User user = new User(registrationDto.getEmail(),
                 registrationDto.getPassword() /*,Arrays.asList(new Role("ROLE_USER"))*/);
 
         return userRepository.save(user);
     }
-
-
-
-//@Override
-//public User save(UserRegistrationDto registrationDto) {
-//    User user = new User(registrationDto.getFirstName(),
-//            registrationDto.getLastName(), registrationDto.getEmail(),
-//           passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
-//
-//    return userRepository.save(user);
-//}
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,10 +33,5 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotFoundException("Invalid username or password");
         return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),null/*,mapRolesToAuthorities(user.getRoles())*/);
     }
-
-//    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
-//        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-//
-//    }
 
 }

@@ -48,21 +48,22 @@
           <td><b>Preces nosaukums</b> </td>
           <td><b>Vienību skaits</b> </td>
           <td><b>Cena par vienību</b> </td>
+          <td><b>Cena ar PVN</b> </td>
           <td><b>Rediģēt preci</b> </td>
           <td><b>Dzēst preci</b> </td>
 
       </tr>
       </thead>
       <tbody>
-      <tr th:each="prod, iStat : ${products}" th:style="${iStat.odd}? 'font-weight: normal;'">
-
-          <td width="20px" th:text="${prod.id}">
-          </td><td th:text="${prod.name}">
-      </td><td th:text="${prod.storedAmount}">
-      </td><td th:text="${prod.price}">
-          <td><a th:href="@{/editProd/{id}(id=${prod.id})}">Edit</a></td>
-          <td><a th:href="@{/deleteProd/{id}(id=${prod.id})}">Delete</a></td>
-          </td></tr>
+      <tr th:each="prod, iStat: ${products}" th:style="${iStat.odd}? 'font-weight: normal;'">
+          <td width="20px" th:text="${prod.key.id}"></td>
+          <td th:text="${prod.key.name}"></td>
+          <td th:text="${prod.key.storedAmount}"></td>
+          <td th:text="${prod.key.price}"></td>
+          <td th:text="${prod.value}">></td>
+          <td><a th:href="@{/editProd/{id}(id=${prod.key.id})}">Edit</a></td>
+          <td><a th:href="@{/deleteProd/{id}(id=${prod.key.id})}">Delete</a></td>
+      </tr>
       </tbody>
   </table>
 
