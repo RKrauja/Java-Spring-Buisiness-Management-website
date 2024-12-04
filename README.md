@@ -31,3 +31,20 @@
    - Column "Total Price" that is calculated on the server side (backend) using the formula:
    (Quantity * Price per Unit) * (1 + VAT)
    - VAT value is loaded from a configuration file
+
+## Technical Stack
+
+### Backend
+- **Framework**: Spring Boot
+- **Language**: Java
+- **Architecture**: Spring MVC
+
+### Frontend
+- **Template Engine**: Thymeleaf
+
+### Database
+- **Relational Database**: MySQL
+- **ORM**: Hibernate (JPA)
+
+### Build Tools
+- **Dependency Management**: Maven
